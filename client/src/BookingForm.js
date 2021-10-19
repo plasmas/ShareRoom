@@ -9,6 +9,7 @@ const BookingForm = (props) => {
     d.setHours(10);
     d.setMinutes(0);
     d.setSeconds(0);
+    d.setMilliseconds(0);
 
     const [username, setUsername] = useState('');
     const [location, setLocation] = useState('VP Ground Floor');
@@ -16,13 +17,17 @@ const BookingForm = (props) => {
     const [duration, setDuration] = useState("2");
 
     const handleSubmit = () => {
+        if (username === "") {
+            alert("A Username is needed");
+            return
+        }
         axios.post('http://localhost:9000/bookings', {
             'username': username,
             'location': location,
             'startTime': startTime,
             'duration': duration
         })
-        .then((response) => { console.log(response) })
+        // .then((response) => { console.log(response) })
         .catch((error) => { console.log(error) })
     }
 
@@ -41,7 +46,7 @@ const BookingForm = (props) => {
             Location:
             <select name="location" value={location} onChange={(e) => {
                 setLocation(e.target.value);
-                console.log("location set to " + e.target.value);
+                // console.log("location set to " + e.target.value);
             }}>
                 <option value="VP Ground Floor">VP Ground Floor</option>
                 <option value="VP 3rd Floor"> VP 3rd Floor</option>
@@ -60,7 +65,7 @@ const BookingForm = (props) => {
                 timeFormat={"H:mm"}
                 onChange={(m) => {
                     setStartTime(m.toDate());
-                    console.log(m.toDate());
+                    // console.log(m.toDate());
                 }} />
         </label>
         <br />
@@ -68,7 +73,7 @@ const BookingForm = (props) => {
             Duration:
             <select name="duration" value={duration} onChange={(e) => {
                 setDuration(e.target.value);
-                console.log("duration changed to " + e.target.value);
+                // console.log("duration changed to " + e.target.value);
             }}>
                 <option value="2">2 hours</option>
                 <option value="1.5">1.5 hour</option>
