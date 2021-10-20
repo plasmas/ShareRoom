@@ -74,7 +74,7 @@ const BookingForm = (props) => {
 
     const [username, setUsername] = useState('');
     const [location, setLocation] = useState('Weigle');
-    const [room, setRoom] = useState('VP WIC Booth 127');
+    const [room, setRoom] = useState('VP WIC Rm 127');
     const [startTime, setStartTime] = useState(d);
     const [duration, setDuration] = useState("2");
 
@@ -133,8 +133,8 @@ const BookingForm = (props) => {
                 timeFormat={"H:mm"}
                 onChange={(m) => {
                     setStartTime(m.toDate());
-                    // console.log(m.toDate());
-                }} />
+                }}
+            />
         </label>
         <br />
         <label>
