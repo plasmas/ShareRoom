@@ -17,29 +17,24 @@ MongoClient.connect(process.env.MONGODB_URL)
 
         router.use(bodyParser.urlencoded( {extended: true} ));
 
-        router.get('/', (req, res) => {
+        router.get('/', (request, response) => {
             bookingCollection.find().toArray()
                 .then(result => {
-                    res.send(result);
-                    console.log(result);
+                    response.status(200).send(result);
                 })
                 .catch(error => console.error(error))
         })
 
-        router.post('/', (req, res) => {
-            bookingCollection.insertOne(req.body)
+        router.post('/', (request, response) => {
+            bookingCollection.insertOne(request.body)
                 .then(result => {
-                    console.log(result);
-                    alert("Submit Success!");
+                    // console.log(result);
+                    console.log("Submit Success!");
                 })
-            res.redirect('/');
+                .then(() => {response.redirect('/')});
         ;})
 
     })
     .catch(error => console.error(error))
-
-// router.get("/", (req, res) => {
-//     res.send("whut is that?");
-// })
 
 module.exports = router;
