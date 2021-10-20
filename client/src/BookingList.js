@@ -64,6 +64,10 @@ const BookingList = (props) => {
                     accessor: "location"
                 },
                 {
+                    Header: "Room",
+                    accessor: "room"
+                },
+                {
                     Header: "Date",
                     accessor: "date"
                 },
@@ -92,6 +96,7 @@ const BookingList = (props) => {
                 return {
                   username: booking.username,
                   location: booking.location,
+                  room: booking.room,
                   date: dateString,
                   time: timeString,
                   duration: booking.duration
