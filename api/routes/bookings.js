@@ -18,7 +18,7 @@ MongoClient.connect(process.env.MONGODB_URL)
         router.use(bodyParser.urlencoded( {extended: true} ));
 
         router.get('/', (request, response) => {
-            bookingCollection.find().toArray()
+            bookingCollection.find().sort({startTime: 1}).toArray()
                 .then(result => {
                     response.status(200).send(result);
                 })
