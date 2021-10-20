@@ -32,12 +32,21 @@ const Styles = styled.div`
   }
 `
 
+const options = {
+    dateStyle: {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric'
+    },
+    timeStyle: {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    }
+}
+
 const BookingList = (props) => {
     const [bookings, setBookings] = useState([]);
-
-    function calEndTime(startTime, duration) {
-      
-    }
 
     const columns = useMemo(
         () => [
@@ -55,12 +64,12 @@ const BookingList = (props) => {
                     accessor: "location"
                 },
                 {
-                    Header: "Start Time",
-                    accessor: "startTime"
+                    Header: "Date",
+                    accessor: "date"
                 },
                 {
-                    Header: "End Time",
-                    accessor: "endTime"
+                    Header: "Time",
+                    accessor: "time"
                 },
                 {
                     Header: "Duration (h)",
@@ -77,18 +86,18 @@ const BookingList = (props) => {
             .then(response => {
               let data = response.data;
               data = data.map((booking) => {
-                let startTime = new Date(Date.parse(booking.startTime));
-                let endTime = new Date(startTime);
-                endTime.setHours(endTime.getHours() + booking.duration);
+                const startTime = new Date(Date.parse(booking.startTime));
+                const dateString = startTime.toLocaleDateString("en-US", options.dateStyle);
+                const timeString = startTime.toLocaleTimeString("en-US", options.timeStyle);
                 return {
                   username: booking.username,
                   location: booking.location,
-                  startTime: startTime,
-                  endTime: endTime,
+                  date: dateString,
+                  time: timeString,
                   duration: booking.duration
                 }
               })
-              console.log(data);
+              // console.log(data);
               setBookings(data);
             })
             .catch(err => console.log(err))
@@ -96,7 +105,7 @@ const BookingList = (props) => {
 
     if (bookings.length === 0) {
         return (
-            <div>No Studyroom reserved! Be the first one to reserve!</div>
+            <div>Be the first one to reserve!</div>
         )
     }
     return (
