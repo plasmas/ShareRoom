@@ -1,13 +1,10 @@
 import './App.css';
-import BookingForm from './BookingForm';
-import BookingList from './BookingList';
+import BookingSubmit from './BookingSubmit';
 
 function App() {
   return (
     <div className="App">
-      <BookingForm />
-      <br />
-      <BookingList />
+      <BookingSubmit />
     </div>
   );
 }
