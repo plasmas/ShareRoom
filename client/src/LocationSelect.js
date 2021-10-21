@@ -7,7 +7,7 @@ import FormControl from '@mui/material/FormControl';
 // props = {studyrooms, data, onChange}
 
 const LocationSelect = props =>
-    <FormControl fullWidth sx={{ mt: 2 }}>
+    <FormControl fullWidth>
         <InputLabel id="location-select-label">Location</InputLabel>
             <Select
                 fullWidth
@@ -17,11 +17,12 @@ const LocationSelect = props =>
                 label="Location"
                 onChange={props.onChange}
             >
-                {
-                    props.studyrooms.map(
-                        loc => <MenuItem key={loc.name} value={loc.name}>{loc.name}</MenuItem>
-                    )
-                }
+            <MenuItem value=""><em>None</em></MenuItem>
+            {
+                props.studyrooms.map(
+                    loc => <MenuItem key={loc.name} value={loc.name}>{loc.name}</MenuItem>
+                )
+            }
             </Select>
     </FormControl>
 

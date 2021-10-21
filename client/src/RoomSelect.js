@@ -6,8 +6,9 @@ import FormControl from '@mui/material/FormControl';
 
 // props = {rooms, data, onChange}
 
-const RoomSelect = props =>
-    <FormControl fullWidth sx={{ mt: 2 }}>
+const RoomSelect = props => {
+    if (props.rooms.length === 0) return (
+        <FormControl fullWidth disabled>
         <InputLabel id="room-select-label">Room</InputLabel>
             <Select
                 fullWidth
@@ -17,12 +18,29 @@ const RoomSelect = props =>
                 label="Room"
                 onChange={props.onChange}
             >
+            <MenuItem value=""><em>None</em></MenuItem>
+            </Select>
+        </FormControl>
+    )
+    return (
+        <FormControl fullWidth>
+            <InputLabel id="room-select-label">Room</InputLabel>
+                <Select
+                    fullWidth
+                    labelId="room-select-label"
+                    id="room-select"
+                    value={props.data}
+                    label="Room"
+                    onChange={props.onChange}
+                >
                 {
                     props.rooms.map(
                         room => <MenuItem key={room} value={room}>{room}</MenuItem>
                     )
                 }
-            </Select>
-    </FormControl>
+                </Select>
+        </FormControl>
+    )
+}
 
 export default RoomSelect;
