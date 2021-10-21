@@ -6,82 +6,23 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LocationSelect from './LocationSelect';
-import LocalizationProvider from '@mui/'
 import RoomSelect from './RoomSelect';
+import DateSelect from './DateSelect';
 
-import Datetime from 'react-datetime';
-import "react-datetime/css/react-datetime.css"
-import moment from 'moment';
-import DateAdapter from '@mui/lab/AdapterMoment';
+import 'moment';
+
+import "react-datetime/css/react-datetime.css";
 import axios from 'axios';
 
-const theme = createTheme();
+import studyrooms from './constants';
 
-const studyrooms = [
-    {
-        name: "Biomedical Library",
-        rooms: [
-            "Biotech Commons Group Study Room 2",
-            "Biotech Commons Group Study Room 3",
-            "Biotech Commons Group Study Room 4",
-            "Biotech Commons Group Study Room 5",
-            "Biotech Commons Group Study Room 6",
-            "Biotech Commons Group Study Room 7",
-            "Biotech Commons Group Study Room 8",
-            "Biotech Commons Group Study Room 9",
-            "Biotech Commons Group Study Room 10",
-            "Biotech Commons Group Study Room 11",
-            "Biotech Commons Group Study Room 12",
-            "Biotech Commons Group Study Room 13",
-            "Biotech Commons Group Study Room 14",
-            "Biotech Commons Group Study Room 15"
-        ]
-    },
-    {
-        name: "Education Commons",
-        rooms: [
-            "Educom Rm 225",
-            "Educom Rm 226",
-            "Educom Rm 228",
-            "Educom Rm 230",
-            "Educom Rm 231",
-            "Educom Rm 235"
-        ]
-    },
-    {
-        name: "Weigle",
-        rooms: [
-            "VP WIC Booth 01",
-            "VP WIC Booth 02",
-            "VP WIC Booth 03",
-            "VP WIC Booth 04",
-            "VP WIC Booth 05",
-            "VP WIC Booth 06",
-            "VP WIC Booth 07",
-            "VP WIC Booth 08",
-            "VP WIC Booth 09",
-            "VP WIC Booth 10",
-            "VP WIC Booth 11",
-            "VP WIC Booth 12",
-            "VP WIC Rm 117 (Beeman)",
-            "VP WIC Rm 118",
-            "VP WIC Rm 119",
-            "VP WIC Rm 120",
-            "VP WIC Rm 123",
-            "VP WIC Rm 126",
-            "VP WIC Rm 127",
-            "VP WIC Rm 128",
-            "VP WIC Rm 129"
-        ]
-    }
-];
+const theme = createTheme();
 
 export default function BookingSubmit() {
     const d = new Date();
@@ -91,26 +32,36 @@ export default function BookingSubmit() {
     d.setMilliseconds(0);
     
     const [username, setUsername] = React.useState('');
-    const [location, setLocation] = React.useState('Weigle');
-    const [room, setRoom] = React.useState('VP WIC Rm 127');
+    const [location, setLocation] = React.useState('');
+    const [room, setRoom] = React.useState('');
     const [startTime, setStartTime] = React.useState(d);
-    const [duration, setDuration] = React.useState("2");
+    const [duration, setDuration] = React.useState('');
 
     const rooms = studyrooms.find(loc => loc.name === location).rooms
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
-        email: data.get('email'),
-        password: data.get('password'),
-        });
-    };
+    const handleDateChange = (date) => {
+      setStartTime(date);
+    }
+
+    const handleSubmit = () => {
+      if (username === "") {
+          alert("A Username is needed");
+          return
+      }
+      axios.post('http://localhost:9000/bookings', {
+          'username': username,
+          'location': location,
+          'room': room,
+          'startTime': startTime,
+          'duration': duration
+      })
+      .then((response) => { console.log(response) })
+      .catch((error) => { console.log(error) })
+    }
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs" spacing={5}>
+      <Container component="main" maxWidth="xs" spacing={10}>
         <CssBaseline />
         <Box
           sx={{
@@ -123,7 +74,7 @@ export default function BookingSubmit() {
           <Typography component="h1" variant="h5">
             Nyoom
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 2 }}>
+          <Stack component="form" onSubmit={handleSubmit} noValidate spacing={3}>
             <TextField
                 required
                 fullWidth
@@ -139,15 +90,16 @@ export default function BookingSubmit() {
             <LocationSelect
                 studyrooms={studyrooms}
                 data={location}
-                onChange={(e) => {setLocation(e.target.value) }}
+                onChange={(e) => { setLocation(e.target.value); setRoom('') }}
             />
             <br />
             <RoomSelect
                 rooms={rooms}
                 data={room}
-                onChange={(e) => {setRoom(e.target.value) }}
+                onChange={(e) => { setRoom(e.target.value) }}
             />
-            <FormControl fullWidth sx={{ mt: 2 }} >
+            <DateSelect value={startTime} onChange={handleDateChange} />
+            <FormControl fullWidth>
                 <InputLabel id="duration-select-label">Duration</InputLabel>
                 <Select
                     fullWidth
@@ -157,13 +109,13 @@ export default function BookingSubmit() {
                     label="Duration"
                     onChange={(e) => { setDuration(e.target.value) }}
                 >
+                    <MenuItem value=""><em>None</em></MenuItem>
                     <MenuItem value="0.5">0.5h</MenuItem>
                     <MenuItem value="1">1h</MenuItem>
                     <MenuItem value="1.5">1.5h</MenuItem>
                     <MenuItem value="2">2h</MenuItem>
                 </Select>
             </FormControl>
-            {/* <LocalizationProvider dateAdapter={DateAdapter}>{children}</LocalizationProvider> */}
             <Button
               type="submit"
               fullWidth
@@ -172,7 +124,7 @@ export default function BookingSubmit() {
             >
               Submit
             </Button>
-          </Box>
+          </Stack>
         </Box>
       </Container>
     </ThemeProvider>
