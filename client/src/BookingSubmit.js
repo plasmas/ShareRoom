@@ -56,7 +56,13 @@ export default function BookingSubmit() {
           'startTime': startTime,
           'duration': duration
       })
-      .then((response) => { console.log(response) })
+      .then((response) => {
+        if (response.status === 200) {
+          window.alert("Submit Success!");
+          window.location.reload(false);
+        }
+        else window.alert("Submit Failed!");
+      })
       .catch((error) => { console.log(error) })
     }
 
