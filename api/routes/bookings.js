@@ -9,6 +9,19 @@ const config = {
     collection: 'booking'
 };
 
+const filterFutureBookings = bookings => {
+    const today = new Date();
+    today.setHours(0);
+    today.setMinutes(0);
+    today.setSeconds(0);
+    today.setMilliseconds(0);
+    let futureBookings = bookings.filter(booking => {
+        const startTime = new Date(Date.parse(booking.startTime));
+        return startTime > today;
+    })
+    return futureBookings;
+}
+
 MongoClient.connect(process.env.MONGODB_URL)
     .then(client => {
         console.log('Connected to DB');
@@ -20,6 +33,8 @@ MongoClient.connect(process.env.MONGODB_URL)
         router.get('/', (request, response) => {
             bookingCollection.find().sort({startTime: 1}).toArray()
                 .then(result => {
+                    result = filterFutureBookings(result);
+                    console.log(result);
                     response.status(200).send(result);
                 })
                 .catch(error => console.error(error))
