@@ -6,16 +6,21 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 
 // props.value props.onChange
 
-const DateSelect = (props) =>
-    <LocalizationProvider dateAdapter={DateAdapter}>
-        <DateTimePicker
-            label="Date&Time picker"
-            value={props.value}
-            onChange={props.onChange}
-            renderInput={(params) => <TextField {...params} />}
-            minutesStep={30}
-            inputFormat="ddd MMM D H:mm"
-        />
-    </LocalizationProvider>
+const DateSelect = (props) => {
+    // const today = new Date();
+    return (
+        <LocalizationProvider dateAdapter={DateAdapter}>
+            <DateTimePicker
+                label="Date&Time picker"
+                value={props.value}
+                onChange={props.onChange}
+                renderInput={(params) => <TextField {...params} />}
+                minutesStep={30}
+                inputFormat="ddd MMM D H:mm"
+                // minDateTime={today}
+            />
+        </LocalizationProvider>
+    )
+}
 
 export default DateSelect;
