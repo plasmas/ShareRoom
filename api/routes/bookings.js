@@ -34,7 +34,7 @@ MongoClient.connect(process.env.MONGODB_URL)
             bookingCollection.find().sort({startTime: 1}).toArray()
                 .then(result => {
                     result = filterFutureBookings(result);
-                    console.log(result);
+                    // console.log(result);
                     response.status(200).send(result);
                 })
                 .catch(error => console.error(error))
@@ -46,7 +46,7 @@ MongoClient.connect(process.env.MONGODB_URL)
                     // console.log(result);
                     console.log("Submit Success!");
                 })
-                .then(() => {response.redirect('/')});
+                .then(() => {response.status(200).send()});
         ;})
 
     })
