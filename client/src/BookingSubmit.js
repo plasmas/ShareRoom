@@ -21,6 +21,7 @@ import "react-datetime/css/react-datetime.css";
 import axios from 'axios';
 
 import studyrooms from './constants';
+import BookingTable from './BookingTable';
 
 const theme = createTheme();
 
@@ -61,7 +62,7 @@ export default function BookingSubmit() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs" spacing={10}>
+      <Container component="main" maxWidth="lg" spacing={10} sx={ {width: '80%'} }>
         <CssBaseline />
         <Box
           sx={{
@@ -72,9 +73,9 @@ export default function BookingSubmit() {
           }}
         >
           <Typography component="h1" variant="h5">
-            Nyoom
+            Share Your Studyroom Bookings!
           </Typography>
-          <Stack component="form" onSubmit={handleSubmit} noValidate spacing={3}>
+          <Stack spacing={2} sx={ { mb: 3, width: "100%"} }>
             <TextField
                 required
                 fullWidth
@@ -82,17 +83,16 @@ export default function BookingSubmit() {
                 label="User Name"
                 name="username"
                 value={username}
-                onChange={(e) => {setUsername(e.target.value); console.log(e.target.value)}}
+                onChange={(e) => {setUsername(e.target.value)}}
                 autoComplete="username"
                 autoFocus
                 sx={{ mt: 2 }} 
             />
             <LocationSelect
-                studyrooms={studyrooms}
+                studyrooms={studyrooms.slice(1)}
                 data={location}
                 onChange={(e) => { setLocation(e.target.value); setRoom('') }}
             />
-            <br />
             <RoomSelect
                 rooms={rooms}
                 data={room}
@@ -120,11 +120,13 @@ export default function BookingSubmit() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              onClick={handleSubmit}
+              sx={{ width: '100%'}}
             >
               Submit
             </Button>
           </Stack>
+          <BookingTable />
         </Box>
       </Container>
     </ThemeProvider>
