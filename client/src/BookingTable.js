@@ -27,9 +27,10 @@ export default function BookingTable() {
             hour12: false
           }
         }
-        axios.get(process.env.BOOKING_API)
+        axios.get(process.env.REACT_APP_BOOKING_API)
             .then(response => {
               let data = response.data;
+              console.log(data);
               data = data.map((booking) => {
                 const startTime = new Date(Date.parse(booking.startTime));
                 const dateString = startTime.toLocaleDateString("en-US", options.dateStyle);

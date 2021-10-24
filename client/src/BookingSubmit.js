@@ -51,7 +51,7 @@ export default function BookingSubmit() {
           alert("A Username is needed");
           return
       }
-      axios.post(process.env.BOOKING_API, {
+      axios.post(process.env.REACT_APP_BOOKING_API, {
           'username': username,
           'location': location,
           'room': room,
