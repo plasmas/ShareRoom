@@ -11,7 +11,7 @@ const DateSelect = (props) => {
     return (
         <LocalizationProvider dateAdapter={DateAdapter}>
             <DateTimePicker
-                label="Date&Time picker"
+                label="Start Time"
                 value={props.value}
                 onChange={props.onChange}
                 renderInput={(params) => <TextField {...params} />}

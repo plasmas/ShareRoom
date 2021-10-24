@@ -23,6 +23,8 @@ import axios from 'axios';
 import studyrooms from './constants';
 import BookingTable from './BookingTable';
 
+require('dotenv').config();
+
 const theme = createTheme();
 
 export default function BookingSubmit() {
@@ -49,7 +51,7 @@ export default function BookingSubmit() {
           alert("A Username is needed");
           return
       }
-      axios.post('http://localhost:9000/bookings', {
+      axios.post(process.env.BOOKING_API, {
           'username': username,
           'location': location,
           'room': room,

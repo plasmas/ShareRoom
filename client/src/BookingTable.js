@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import axios from 'axios';
+require('dotenv').config();
 
 export default function BookingTable() {
 
@@ -26,7 +27,7 @@ export default function BookingTable() {
             hour12: false
           }
         }
-        axios.get(`http://localhost:9000/bookings`)
+        axios.get(process.env.BOOKING_API)
             .then(response => {
               let data = response.data;
               data = data.map((booking) => {
