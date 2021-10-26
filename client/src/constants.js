@@ -58,6 +58,17 @@ const studyrooms = [
             "VP WIC Rm 128",
             "VP WIC Rm 129"
         ]
+    },
+    {
+        name: "Lippincott",
+        rooms: [
+            "Lippincott 247",
+            "Lippincott 248",
+            "Lippincott 251",
+            "Lippincott 252",
+            "Lippincott 254",
+            "Lippincott 255"
+        ]
     }
 ];
 
