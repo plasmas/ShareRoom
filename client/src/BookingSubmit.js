@@ -122,6 +122,10 @@ export default function BookingSubmit() {
                     <MenuItem value="1">1h</MenuItem>
                     <MenuItem value="1.5">1.5h</MenuItem>
                     <MenuItem value="2">2h</MenuItem>
+                    <MenuItem value="2.5">2.5h</MenuItem>
+                    <MenuItem value="3">3h</MenuItem>
+                    <MenuItem value="3.5">3.5h</MenuItem>
+                    <MenuItem value="4">4h</MenuItem>
                 </Select>
             </FormControl>
             <Button
